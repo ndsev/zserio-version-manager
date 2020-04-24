@@ -46,12 +46,6 @@ def require(src_file: str = "", *, package_prefix: str = ""):
     :return: True if succesfull, False otherwise.
     """
     global zs_jar_path
-    if not zs_jar_path:
-        print("""
-        ERROR: Zserio not installed. Call `setup()` before
-        running `package()`, or set `zswag.zs_jar_path`.
-        """)
-        return False
     zs_pkg_path = os.path.dirname(os.path.abspath(src_file))
     zs_build_path = os.path.join(zs_pkg_path, ".zs-python-package")
     subprocess.run([
