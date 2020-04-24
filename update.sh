@@ -16,6 +16,7 @@ echo ""
 echo "---------- Packaging Zserio JAR/Runtime ----------"
 echo ""
 
+git rm "src/**/*.py"
 cp -rf zserio-official/distr/zserio.jar src/zserio
 cp -rf zserio-official/compiler/extensions/python/runtime/src/zserio/* src/zserio
 echo "from .gen import *" >> src/zserio/__init__.py
@@ -29,5 +30,11 @@ echo "$ZSERIO_VERSION" > zserio-version.txt
 echo "Zserio version: $ZSERIO_VERSION"
 
 echo ""
-echo "----------------------- Done ---------------------"
+echo "--------------------- GIT Add --------------------"
 echo ""
+
+git add zserio-version.txt
+git add "src/**/*.py"
+
+echo ""
+echo "----------------------- Done ---------------------"

@@ -39,13 +39,11 @@ Just execute
 pytest test
 ```
 
-## HOWTO: Deploy a new PIP package for a new Zserio version 
+## Updating package with a new Zserio version 
 
 * __Step 1:__ Update the `zserio-official` submodule to the required version.
 * __Step 2:__ Execute `./update.sh`
-* __Step 3:__ Add/Commit/Push:
-  * `git add "src/**"`
-  * `git add "zserio-version.txt"`
+* __Step 3:__ Commit/Push:
   * `git commit ...`
-  * `...`
+  * `git push ...`
 * __Step 4:__ Execute `./deploy.sh`
