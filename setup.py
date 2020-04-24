@@ -19,7 +19,7 @@ packages = setuptools.find_packages("src")
 
 setuptools.setup(
     name="zserio",
-    version=version,
+    version="0.0.0pre",
     url="http://zserio.org",
     author="Navigation Data Standard e.V.",
     author_email="support@nds-association.org",
@@ -30,6 +30,10 @@ setuptools.setup(
 
     package_dir={'': 'src'},
     packages=packages,
+    include_package_data=True,
+    package_data={
+        'zserio': ['zserio.jar']
+    },
 
     install_requires=required,
     dependency_links=required_url,
