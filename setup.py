@@ -19,7 +19,7 @@ packages = setuptools.find_packages("src")
 
 setuptools.setup(
     name="zserio",
-    version="0.0.0pre",
+    version=version,
     url="http://zserio.org",
     author="Navigation Data Standard e.V.",
     author_email="support@nds-association.org",
