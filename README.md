@@ -25,7 +25,7 @@ import zserio
 
 # Automatically inserts a new python module called `mypackage`
 #  into the current python environment
-zswag.package("mypackage/all.zs", package_prefix="mypackage")
+zserio.require("mypackage/all.zs", package_prefix="mypackage")
 
 # You can now access structs from your zserio sources!
 from mypackage.all import CoolStruct
