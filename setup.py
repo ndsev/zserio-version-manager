@@ -24,7 +24,7 @@ setuptools.setup(
     author="Navigation Data Standard e.V.",
     author_email="support@nds-association.org",
 
-    description="Zserio runtime and Python package builder.",
+    description="Zserio Python package builder and runtime.",
     long_description=long_description,
     long_description_content_type="text/markdown",
 

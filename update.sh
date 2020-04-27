@@ -13,10 +13,18 @@ ant zserio_bundle.install
 cd ..
 
 echo ""
+echo "------------------- GIT Remove -------------------"
+echo ""
+
+# Remove old zserio runtime sources, but keep gen.py
+mv "src/zserio/gen.py" "src/zserio/gen.py.keep"
+git rm "src/zserio/*.py"
+mv "src/zserio/gen.py.keep" "src/zserio/gen.py"
+
+echo ""
 echo "---------- Packaging Zserio JAR/Runtime ----------"
 echo ""
 
-git rm "src/**/*.py"
 cp -rf zserio-official/distr/zserio.jar src/zserio
 cp -rf zserio-official/compiler/extensions/python/runtime/src/zserio/* src/zserio
 echo "from .gen import *" >> src/zserio/__init__.py
@@ -34,7 +42,7 @@ echo "--------------------- GIT Add --------------------"
 echo ""
 
 git add zserio-version.txt
-git add "src/**/*.py"
+git add "src/zserio/*.py"
 
 echo ""
 echo "----------------------- Done ---------------------"

@@ -1,8 +1,8 @@
 # zserio-pip-package
 
 PyPI package infrastructure around Zserio. For extensive
-documentation on the zserio language, please have a look
-at [zserio.org](http://zserio.org).
+documentation around the zserio language please check
+[zserio.org](http://zserio.org).
 
 ## Installation
 
@@ -43,7 +43,5 @@ pytest test
 
 * __Step 1:__ Update the `zserio-official` submodule to the required version.
 * __Step 2:__ Execute `./update.sh`
-* __Step 3:__ Commit/Push:
-  * `git commit ...`
-  * `git push ...`
+* __Step 3:__ Commit/Push (Appropriate Adds/Removes are performed automatically)
 * __Step 4:__ Execute `./deploy.sh`
