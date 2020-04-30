@@ -26,7 +26,7 @@ import zserio
 
 # Automatically inserts a new python module called `mypackage`
 #  into the current python environment
-zserio.require("mypackage/all.zs", package_prefix="mypackage")
+zserio.generate("mypackage/all.zs", "mypackage")
 
 # You can now access structs from your zserio sources!
 from mypackage.all import CoolStruct
@@ -40,9 +40,26 @@ Just execute
 pytest test
 ```
 
-## Updating package with a new Zserio version 
+## Available scripts: 
 
-* __Step 1:__ Update the `zserio-official` submodule to the required version.
-* __Step 2:__ Execute `./update.sh`
-* __Step 3:__ Commit/Push (Appropriate Adds/Removes are performed automatically)
-* __Step 4:__ Execute `./deploy.sh`
+### set-version.sh <version>
+
+Set the zserio PIP package version under `current/zserio`
+to a desired version. If the version has not been added to
+`cache`, it will be downloaded and placed there. You should
+`git add/push` it.
+
+The script places the following files under `current/zserio`:
+* `runtime/`
+    * `cpp/...`
+    * `java/...`
+    * `python/...`
+* `__init__.py`
+* `<zserio runtime Python sources>`
+* `zserio.jar`
+
+### download.sh <version>
+
+Use this if you just want to add a new zserio version
+to the cache (This is also triggered by `set-version`
+if a non-cached version is requested).
