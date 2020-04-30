@@ -12,10 +12,10 @@ with open("requirements.txt", "r") as freq:
         else:
             required.append(line)
 
-with open("zserio-version.txt", "r") as version_file:
+with open("current-version.txt", "r") as version_file:
     version = version_file.read().strip()
 
-packages = setuptools.find_packages("src")
+packages = setuptools.find_packages("current")
 
 setuptools.setup(
     name="zserio",
@@ -24,11 +24,11 @@ setuptools.setup(
     author="Navigation Data Standard e.V.",
     author_email="support@nds-association.org",
 
-    description="Zserio Python package builder and runtime.",
+    description="Zserio runtime and Python package generator.",
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    package_dir={'': 'src'},
+    package_dir={'': 'current'},
     packages=packages,
     include_package_data=True,
     package_data={

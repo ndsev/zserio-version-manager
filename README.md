@@ -1,4 +1,4 @@
-# zserio-pip-package
+# Zserio Package
 
 PyPI package infrastructure around Zserio. For extensive
 documentation around the zserio language please check
@@ -15,6 +15,7 @@ pip3 install zserio
 Alternatively, clone this repository, and run
 
 ```bash
+./set-version.sh <desired-zserio-version>
 pip3 install -e .
 ```
 
