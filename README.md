@@ -42,24 +42,26 @@ pytest test
 
 ## Available scripts: 
 
-### set-version.sh <version>
+### get.sh \<version> \[\<destination>]
 
-Set the zserio PIP package version under `current/zserio`
+Set the zserio PIP package version under a specific destination
+path (or `./current/zserio`, if no destination is given)
 to a desired version. If the version has not been added to
-`cache`, it will be downloaded and placed there. You should
+`./cache`, it will be downloaded and placed there. You should
 `git add/push` it.
 
-The script places the following files under `current/zserio`:
+The script places the following files under `<destination>`:
 * `runtime/`
     * `cpp/...`
     * `java/...`
     * `python/...`
 * `__init__.py`
-* `<zserio runtime Python sources>`
+* `(zserio runtime python sources...)`
 * `zserio.jar`
+* `version.txt`
 
-### download.sh <version>
+### download.sh \<version>
 
 Use this if you just want to add a new zserio version
-to the cache (This is also triggered by `set-version`
+to the cache (This is also triggered by `get.sh`
 if a non-cached version is requested).
