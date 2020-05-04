@@ -39,8 +39,10 @@ setuptools.setup(
     dependency_links=required_url,
     python_requires='>=3.6',
 
+    license = "BSD-3 Clause",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
-    ],
+        "License :: OSI Approved :: BSD License"
+     ],
 )
