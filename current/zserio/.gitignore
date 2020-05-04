@@ -1,0 +1,5 @@
+*.py
+zserio.jar
+jar/
+runtime/
+version.txt
