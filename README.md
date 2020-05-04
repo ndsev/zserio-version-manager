@@ -1,6 +1,6 @@
 # Zserio Package
 
-PyPI package infrastructure around Zserio. For extensive
+PyPI package infrastructure around Zserio Serialization Framework. For extensive
 documentation around the zserio language please check
 [zserio.org](http://zserio.org).
 
