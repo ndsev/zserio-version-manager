@@ -52,8 +52,8 @@ rm -rf "$DESTINATION"/runtime
 
 # Install relevant files from ZIP...
 mkdir -p "$DESTINATION"
-unzip "$RUNTIME_ZIP" -d "$DESTINATION/runtime"
-unzip "$JAR_ZIP" -d "$DESTINATION/jar"
+unzip -q "$RUNTIME_ZIP" -d "$DESTINATION/runtime"
+unzip -q "$JAR_ZIP" -d "$DESTINATION/jar"
 cp "$DESTINATION/jar/zserio.jar" "$DESTINATION/zserio.jar"
 mv "$DESTINATION"/runtime/runtime_libs/* "$DESTINATION/runtime"
 cp "$DESTINATION"/runtime/python/zserio/*.py "$DESTINATION"

@@ -1,7 +1,7 @@
 # Zserio Package
 
-PyPI package infrastructure around Zserio Serialization Framework. For extensive
-documentation around the zserio language please check
+PyPI package infrastructure around the zserio serialization framework.
+For extensive documentation regarding zserio, please check
 [zserio.org](http://zserio.org).
 
 ## Installation
@@ -15,7 +15,7 @@ pip3 install zserio
 Alternatively, clone this repository, and run
 
 ```bash
-./set-version.sh <desired-zserio-version>
+./get.sh <desired-zserio-version>
 pip3 install -e .
 ```
 
