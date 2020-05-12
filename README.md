@@ -15,7 +15,7 @@ pip3 install zserio
 Alternatively, clone this repository, and run
 
 ```bash
-./get.sh <desired-zserio-version>
+./get.sh --python-module --version <desired-zserio-version>
 pip3 install -e .
 ```
 
@@ -42,23 +42,22 @@ pytest test
 
 ## Available scripts: 
 
-### get.sh \<version> \[\<destination>]
+### get.sh [--python-module] [--version] [--directory]
 
-Set the zserio PIP package version under a specific destination
+Set the zserio artifact version under a specific destination
 path (or `./current/zserio`, if no destination is given)
 to a desired version. If the version has not been added to
 `./cache`, it will be downloaded and placed there. You should
-`git add/push` it.
+`git add/push` it. 
 
-The script places the following files under `<destination>`:
+The script places the following files under `<directory>`:
 * `runtime/`
     * `cpp/...`
     * `java/...`
     * `python/...`
-* `__init__.py`
-* `(zserio runtime python sources...)`
 * `zserio.jar`
 * `version.txt`
+* `[if --python-module]`: `patched python runtime sources`
 
 ### download.sh \<version>
 
