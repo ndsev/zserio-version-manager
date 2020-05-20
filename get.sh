@@ -24,6 +24,11 @@ for arg in "$@"; do
     shift
     shift
     ;;
+  --cache|-z)
+    CACHE_DIR=$2
+    shift
+    shift
+    ;;
   esac
 done
 
@@ -32,7 +37,7 @@ if [[ "$VERSION" == "" ]]; then
   echo "get.sh: Invalid argument(s)!"
   echo ""
   echo "Usage:"
-  echo "  ./get.sh [--python-module|-p] [--version|-v <version>] [--directory|-d <path>]"
+  echo "  ./get.sh [--python-module|-p] [--version|-v <version>] [--directory|-d <path>] [--cache|-c <cache-dir>]"
   echo ""
   echo "Description:"
   echo "  Get zserio version artifacts for a specific version. The artifacts"
@@ -52,6 +57,7 @@ if [[ "$VERSION" == "" ]]; then
   echo "   Note: By default, the destination is set to current/zserio"
   echo "  python-module: Prepare the target folder such that it contains a zserio runtime"
   echo "   python module that also supports the zserio.generate() function."
+  echo "  cache: (Optional) Path to look up and store unzipped Zserio artifacts."
   echo ""
   echo "Example:"
   echo "  ./get.sh -p -v 2.0.0"
@@ -66,28 +72,55 @@ if [[ ! -f "$RUNTIME_ZIP" || ! -f "$JAR_ZIP" ]]; then
   "$DIR/download.sh" "$VERSION"
 fi
 
-# Cleanup previous version
-rm -f "$DESTINATION"/*.py
-rm -f "$DESTINATION"/*.rej
-rm -f "$DESTINATION"/*.orig
-rm -f "$DESTINATION"/zserio.jar
-rm -f "$DESTINATION"/version.txt
-rm -rf "$DESTINATION"/jar
-rm -rf "$DESTINATION"/runtime
+if [[ -f "$DESTINATION"/version.txt ]]; then
+  PREV_VERSION=`cat "$DESTINATION"/version.txt`
+fi
 
-# Install relevant files from ZIP...
+# Cleanup previous zserio artifacts if these were at another version
+if [[ -z "$PREV_VERSION" || ! "$PREV_VERSION" == "$VERSION" ]]; then
+  # TODO alternative to throwing out all .py files? Seems dangerous...
+  rm -f "$DESTINATION"/*.py
+  rm -f "$DESTINATION"/*.rej
+  rm -f "$DESTINATION"/*.orig
+  rm -f "$DESTINATION"/zserio.jar
+  rm -f "$DESTINATION"/version.txt
+  rm -rf "$DESTINATION"/jar
+  rm -rf "$DESTINATION"/runtime
+fi
+
 mkdir -p "$DESTINATION"
-unzip -q "$RUNTIME_ZIP" -d "$DESTINATION/runtime"
-unzip -q "$JAR_ZIP" -d "$DESTINATION/jar"
-cp "$DESTINATION/jar/zserio.jar" "$DESTINATION/zserio.jar"
-mv "$DESTINATION"/runtime/runtime_libs/* "$DESTINATION/runtime"
+mkdir -p "$DESTINATION/runtime"
+
+# Setup cache if needed
+if [[ -n "${CACHE_DIR}" ]]; then
+  SOURCE="$CACHE_DIR/$VERSION"
+  mkdir -p "$SOURCE"
+else
+  # Unzip to a temp destination - files need to be restructured anyway
+  SOURCE="$(mktemp -d)"
+  trap "rm -rf ${SOURCE}" ERR
+fi
+
+if [[ ! -d "$SOURCE/runtime" ]]; then
+  unzip -q "$RUNTIME_ZIP" -d "$SOURCE/runtime"
+fi
+if [[ ! -d "$SOURCE/jar" ]]; then
+  unzip -q "$JAR_ZIP" -d "$SOURCE/jar"
+fi
+
+# Install relevant files...
+rsync "$SOURCE/jar/zserio.jar" "$DESTINATION/zserio.jar"
+rsync -a -q "$SOURCE/runtime/runtime_libs/" "$DESTINATION/runtime"
 if [[ $WITH_PYTHON == "true" ]]; then
-    cp "$DESTINATION"/runtime/python/zserio/*.py "$DESTINATION"
-    cp "$DIR/patch/gen.py" "$DESTINATION"
+    rsync "$SOURCE"/runtime/python/zserio/*.py "$DESTINATION"
+    rsync "$DIR/patch/gen.py" "$DESTINATION"
     patch "$DESTINATION/__init__.py" "$DIR/patch/gen.patch"
     rm -f "$DESTINATION"/*.orig
 fi
-rm -rf "$DESTINATION"/jar
+
+if [[ -n "${CACHE_DIR}" ]]; then
+    rm -rf "${SOURCE}"
+fi
 
 # Extract version
 ZSERIO_VERSION=$(java -jar "$DESTINATION/zserio.jar" -version | sed "s/version //g")
