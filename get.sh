@@ -29,6 +29,10 @@ for arg in "$@"; do
     shift
     shift
     ;;
+  --quick|-q)
+    QUICK_REQUESTED=true
+    shift
+    ;;
   esac
 done
 
@@ -58,6 +62,7 @@ if [[ "$VERSION" == "" ]]; then
   echo "  python-module: Prepare the target folder such that it contains a zserio runtime"
   echo "   python module that also supports the zserio.generate() function."
   echo "  cache: (Optional) Path to look up and store unzipped Zserio artifacts."
+  echo "  quick: (Optional) Skip processing if current zserio version in destination matches the required."
   echo ""
   echo "Example:"
   echo "  ./get.sh -p -v 2.0.0"
@@ -74,6 +79,15 @@ fi
 
 if [[ -f "$DESTINATION"/version.txt ]]; then
   PREV_VERSION=`cat "$DESTINATION"/version.txt`
+fi
+
+if [[ $QUICK_REQUESTED == "true" ]]; then
+  if [[ "$PREV_VERSION" == "$VERSION" ]]; then
+    echo "Quick mode: re-using zserio artifact v${VERSION} from previous run."
+    exit 0
+  else
+    echo "Changing zserio version of package: ${PREV_VERSION} -> ${VERSION}"
+  fi
 fi
 
 # Cleanup previous zserio artifacts if these were at another version
