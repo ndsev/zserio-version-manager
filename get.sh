@@ -112,7 +112,6 @@ if [[ -n "${CACHE_DIR}" ]]; then
 else
   # Unzip to a temp destination - files need to be restructured anyway
   SOURCE="$(mktemp -d)"
-  trap "rm -rf ${SOURCE}" ERR
 fi
 
 if [[ ! -d "$SOURCE/runtime" ]]; then
@@ -124,10 +123,12 @@ fi
 
 # Install relevant files...
 rsync "$SOURCE/jar/zserio.jar" "$DESTINATION/zserio.jar"
-rsync -a -q "$SOURCE/runtime/runtime_libs/" "$DESTINATION/runtime"
+rsync -aq "$SOURCE"/runtime/runtime_libs/* "$DESTINATION/runtime"
+echo "$DESTINATION/runtime"
+ls "$DESTINATION/runtime"
 if [[ $WITH_PYTHON == "true" ]]; then
-    rsync "$SOURCE"/runtime/python/zserio/*.py "$DESTINATION"
-    rsync "$DIR/patch/gen.py" "$DESTINATION"
+    rsync -aq "$DESTINATION"/runtime/python/zserio/*.py "$DESTINATION"
+    rsync -aq "$DIR/patch/gen.py" "$DESTINATION"
     patch "$DESTINATION/__init__.py" "$DIR/patch/gen.patch"
     rm -f "$DESTINATION"/*.orig
 fi
