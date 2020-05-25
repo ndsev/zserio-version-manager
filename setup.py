@@ -12,7 +12,7 @@ with open("requirements.txt", "r") as freq:
         else:
             required.append(line)
 
-with open("current-version.txt", "r") as version_file:
+with open("current/zserio/version.txt", "r") as version_file:
     version = version_file.read().strip()
 
 packages = setuptools.find_packages("current")
