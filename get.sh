@@ -124,8 +124,6 @@ fi
 # Install relevant files...
 rsync "$SOURCE/jar/zserio.jar" "$DESTINATION/zserio.jar"
 rsync -aq "$SOURCE"/runtime/runtime_libs/* "$DESTINATION/runtime"
-echo "$DESTINATION/runtime"
-ls "$DESTINATION/runtime"
 if [[ $WITH_PYTHON == "true" ]]; then
     rsync -aq "$DESTINATION"/runtime/python/zserio/*.py "$DESTINATION"
     rsync -aq "$DIR/patch/gen.py" "$DESTINATION"
