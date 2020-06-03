@@ -2,7 +2,7 @@
 set -eu
 
 if [[ ! -f current/zserio/version.txt ]]; then
-  echo "No version selected! Please run ./set-version <version>."
+  echo "No version selected! Please run ./get.sh -p -v <version>."
   exit 1
 fi
 
