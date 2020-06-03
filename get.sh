@@ -112,6 +112,7 @@ if [[ -n "${CACHE_DIR}" ]]; then
 else
   # Unzip to a temp destination - files need to be restructured anyway
   SOURCE="$(mktemp -d)"
+  trap "rm -rf $SOURCE" ERR
 fi
 
 if [[ ! -d "$SOURCE/runtime" ]]; then
