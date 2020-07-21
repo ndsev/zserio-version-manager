@@ -7,5 +7,5 @@ if [[ ! -f current/zserio/version.txt ]]; then
 fi
 
 rm -rf dist
-python setup.py sdist bdist_wheel
+python3 setup.py sdist bdist_wheel
 twine upload dist/*

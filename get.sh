@@ -41,7 +41,7 @@ if [[ "$VERSION" == "" ]]; then
   echo "get.sh: Invalid argument(s)!"
   echo ""
   echo "Usage:"
-  echo "  ./get.sh [--python-module|-p] [--version|-v <version>] [--directory|-d <path>] [--cache|-c <cache-dir>]"
+  echo "  ./get.sh [--quick] [--python-module|-p] [--version|-v <version>] [--directory|-d <path>] [--cache|-c <cache-dir>]"
   echo ""
   echo "Description:"
   echo "  Get zserio version artifacts for a specific version. The artifacts"
