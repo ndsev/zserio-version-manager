@@ -64,3 +64,8 @@ The script places the following files under `<directory>`:
 Use this if you just want to add a new zserio version
 to the cache (This is also triggered by `get.sh`
 if a non-cached version is requested).
+
+### Dockerfile
+
+The Dockerfile may be used to work with this repository on Windows,
+e.g. to deploy a new version of the zserio pip package.
