@@ -1,4 +1,4 @@
-# Zserio Package
+# Zserio Artifact Manager
 
 Artifact version management for the zserio serialization framework.
 For extensive documentation regarding zserio, please check
