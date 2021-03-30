@@ -6,14 +6,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Make sure that the first argument looks like a version
 VERSION=""
 DESTINATION="$DIR/current/zserio"
-WITH_PYTHON=false
 
 for arg in "$@"; do
   case $arg in
-  --python-module|-p)
-    WITH_PYTHON=true
-    shift
-    ;;
   --version|-v)
     VERSION=$(echo "$2" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+(\\-pre[0-9]?)?$")
     shift
@@ -41,7 +36,7 @@ if [[ "$VERSION" == "" ]]; then
   echo "get.sh: Invalid argument(s)!"
   echo ""
   echo "Usage:"
-  echo "  ./get.sh [--quick] [--python-module|-p] [--version|-v <version>] [--directory|-d <path>] [--cache|-c <cache-dir>]"
+  echo "  ./get.sh [--quick] [--version|-v <version>] [--directory|-d <path>] [--cache|-c <cache-dir>]"
   echo ""
   echo "Description:"
   echo "  Get zserio version artifacts for a specific version. The artifacts"
@@ -53,19 +48,16 @@ if [[ "$VERSION" == "" ]]; then
   echo "   | | python/..."
   echo "   | zserio.jar"
   echo "   | version.txt"
-  echo "   | [if --python-module: zserio runtime python sources]"
   echo ""
   echo "Args:"
   echo "  version: Desired zserio version (see https://github.com/ndsev/zserio/releases)"
   echo "  directory: (Optional) Target path where the respective artifacts should be placed."
-  echo "   Note: By default, the destination is set to current/zserio"
-  echo "  python-module: Prepare the target folder such that it contains a zserio runtime"
-  echo "   python module that also supports the zserio.generate() function."
+  echo "             Note: By default, the destination is set to current/zserio"
   echo "  cache: (Optional) Path to look up and store unzipped Zserio artifacts."
   echo "  quick: (Optional) Skip processing if current zserio version in destination matches the required."
   echo ""
   echo "Example:"
-  echo "  ./get.sh -p -v 2.0.0"
+  echo "  ./get.sh -v 2.0.0"
   exit 1
 fi
 
@@ -125,13 +117,6 @@ fi
 # Install relevant files...
 rsync "$SOURCE/jar/zserio.jar" "$DESTINATION/zserio.jar"
 rsync -aq "$SOURCE"/runtime/runtime_libs/* "$DESTINATION/runtime"
-if [[ $WITH_PYTHON == "true" ]]; then
-    rsync -aq "$DESTINATION"/runtime/python/zserio/*.py "$DESTINATION"
-    rsync -aq "$DIR/patch/gen.py" "$DESTINATION"
-    patch "$DESTINATION/__init__.py" "$DIR/patch/gen.patch"
-    rm -f "$DESTINATION"/*.orig
-fi
-
 if [[ -n "${CACHE_DIR}" ]]; then
     rm -rf "${SOURCE}"
 fi
