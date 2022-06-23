@@ -5,6 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Make sure that the first argument looks like a version
 VERSION=""
+CACHE_DIR=""
 DESTINATION="$DIR/current/zserio"
 
 for arg in "$@"; do
@@ -98,13 +99,13 @@ mkdir -p "$DESTINATION"
 mkdir -p "$DESTINATION/runtime"
 
 # Setup cache if needed
-if [[ -n "${CACHE_DIR}" ]]; then
+if [[ ! "${CACHE_DIR}" == "" ]]; then
   SOURCE="$CACHE_DIR/$VERSION"
   mkdir -p "$SOURCE"
 else
   # Unzip to a temp destination - files need to be restructured anyway
   SOURCE="$(mktemp -d)"
-  trap "rm -rf $SOURCE" ERR
+  trap "rm -rf ${SOURCE:?}" ERR
 fi
 
 if [[ ! -d "$SOURCE/runtime" ]]; then
@@ -117,8 +118,8 @@ fi
 # Install relevant files...
 rsync "$SOURCE/jar/zserio.jar" "$DESTINATION/zserio.jar"
 rsync -aq "$SOURCE"/runtime/runtime_libs/* "$DESTINATION/runtime"
-if [[ -n "${CACHE_DIR}" ]]; then
-    rm -rf "${SOURCE}"
+if [[ "${CACHE_DIR}" == "" ]]; then
+    rm -rf "${SOURCE:?}"
 fi
 
 # Extract version
